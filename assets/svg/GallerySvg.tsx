@@ -4,8 +4,6 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
 export const GallerySvg = ({color}) => {
-  console.log(color);
-
   return (
     <View
       style={[
