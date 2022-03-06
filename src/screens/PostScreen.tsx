@@ -8,9 +8,17 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
+  Dimensions,
 } from 'react-native';
 
 import {removePost, addFoto, removeFavotite} from '../store/actions/post';
+import {ArrowSvg} from '../../assets/svg/ArrowSvg';
+import {TransparentHeartSvg} from '../../assets/svg/TransparentHeartSvg';
+import {HeartSvg} from '../../assets/svg/HeartSvg';
+import {BasketSvg} from '../../assets/svg/BasketSvg';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
 
 export const PostScreen = ({route, navigation}) => {
   const dispatch = useDispatch();
@@ -26,6 +34,7 @@ export const PostScreen = ({route, navigation}) => {
 
   const handleFoto = () => {
     dispatch(addFoto(post));
+    navigation.navigate('TabNav');
   };
 
   const deleteFavouriteFoto = () => {
@@ -37,8 +46,8 @@ export const PostScreen = ({route, navigation}) => {
 
   const removeHandler = () => {
     Alert.alert(
-      'Удаление поста',
-      'Вы точно хотите удалить пост?',
+      'Удаление фотографии',
+      'Вы точно хотите удалить фото?',
       [
         {
           text: 'Отменить',
@@ -69,56 +78,84 @@ export const PostScreen = ({route, navigation}) => {
         colors={['#790598', '#BC1399']}
         style={styles.header}>
         <TouchableOpacity
+          style={styles.headerArrow}
           activeOpacity={0.7}
           onPress={() => navigation.navigate('TabNav')}>
-          <Text style={styles.text}>←</Text>
+          <ArrowSvg />
         </TouchableOpacity>
+
         <Text style={styles.text}>IMG-{route.params.id}</Text>
       </LinearGradient>
       <ImageBackground
         style={styles.image}
-        source={{uri: route.params.urls.raw}}
+        source={{uri: route.params.urls.regular}}
       />
-      <TouchableOpacity activeOpacity={0.7} onPress={removeHandler}>
-        <Text style={styles.text2}>удалить</Text>
-      </TouchableOpacity>
-      {!Object.values(favouriteFoto).some(i => i.id === post.id) && (
-        <TouchableOpacity activeOpacity={0.7} onPress={handleFoto}>
-          <Text style={styles.text2}>добавить в избранное</Text>
+      <View style={styles.buttonGroup}>
+        {!Object.values(favouriteFoto).some(i => i.id === post.id) && (
+          <TouchableOpacity
+            style={styles.buttonTop}
+            activeOpacity={0.7}
+            onPress={handleFoto}>
+            <View style={styles.buttonImage}>
+              <TransparentHeartSvg />
+            </View>
+            <Text style={styles.textButton}>Добавить в избранное</Text>
+          </TouchableOpacity>
+        )}
+        {Object.values(favouriteFoto).some(i => i.id === post.id) && (
+          <TouchableOpacity
+            style={styles.buttonTop}
+            activeOpacity={0.7}
+            onPress={deleteFavouriteFoto}>
+            <View style={styles.buttonImage}>
+              <HeartSvg />
+            </View>
+            <Text style={styles.textButton}>Убрать из избранного</Text>
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity
+          style={styles.buttonBottom}
+          activeOpacity={0.7}
+          onPress={removeHandler}>
+          <View style={styles.buttonImage}>
+            <BasketSvg />
+          </View>
+          <Text style={styles.textButton}>Удалить изображение</Text>
         </TouchableOpacity>
-      )}
-      {Object.values(favouriteFoto).some(i => i.id === post.id) && (
-        <TouchableOpacity activeOpacity={0.7} onPress={deleteFavouriteFoto}>
-          <Text style={styles.text2}>удалить из избранного</Text>
-        </TouchableOpacity>
-      )}
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   center: {
-    flex: 1,
-    //justifyContent: 'center',
-    //alignItems: 'center',
+    position: 'relative',
+    backgroundColor: '#222222',
+    height: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   image: {
-    //flex: 1,
-    alignItems: 'center',
-    height: 350,
-    width: 350,
+    position: 'absolute',
+    top: (height - width) / 2 - 15,
+    height: width,
+    width: width,
   },
 
   header: {
-    //backgroundColor: 'darkslateblue',
-    //borderBottomEndRadius: 20,
-    //borderBottomStartRadius: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    position: 'relative',
+    width: '100%',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    paddingTop: 21,
-    paddingBottom: 21,
+    justifyContent: 'center',
+    height: 60,
+  },
+
+  headerArrow: {
+    position: 'absolute',
+    left: 15,
+    padding: 10,
   },
 
   text: {
@@ -126,13 +163,46 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-SemiBold',
     fontSize: 22,
     fontStyle: 'normal',
-    textAlign: 'center',
+    alignSelf: 'center',
   },
-  text2: {
-    color: 'red',
+  textButton: {
+    color: '#000000',
     fontFamily: 'OpenSans-SemiBold',
-    fontSize: 22,
+    fontSize: 16,
+    lineHeight: 22,
     fontStyle: 'normal',
-    textAlign: 'center',
+    marginLeft: 10,
+  },
+
+  buttonGroup: {
+    width: '92%',
+    marginBottom: 15,
+  },
+
+  buttonImage: {
+    paddingTop: 7,
+  },
+
+  buttonTop: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderTopRightRadius: 20,
+    borderWidth: 1,
+    height: 43,
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 20,
+    borderBottomColor: '#C4C4C4',
+  },
+
+  buttonBottom: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderWidth: 1,
+    height: 43,
+    backgroundColor: '#FFFFFF',
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
 });

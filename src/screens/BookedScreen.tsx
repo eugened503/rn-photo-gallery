@@ -47,8 +47,10 @@ const styles = StyleSheet.create({
     //borderBottomStartRadius: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    paddingTop: 21,
-    paddingBottom: 21,
+    justifyContent: 'center',
+    //paddingTop: 21,
+    //paddingBottom: 21,
+    height: 60,
   },
 
   text: {

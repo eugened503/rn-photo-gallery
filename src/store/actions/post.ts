@@ -1,5 +1,4 @@
 import {LOAD_POSTS, REMOVE_POST, ADD_FOTO, REMOVE_FAVORITE} from '../types';
-//import {data} from '../../../data/data';
 
 export const loadPosts = (data: any) => {
   return {
