@@ -21,6 +21,10 @@ export const TabNavigator = () => {
           elevation: 0,
           height: 60,
           paddingTop: 10,
+          paddingBottom: 10,
+        },
+        tabBarLabel: () => {
+          return null;
         },
       }}>
       <Tab.Screen
@@ -38,7 +42,6 @@ export const TabNavigator = () => {
               </Text>
             </View>
           ),
-          title: '',
         }}
       />
       <Tab.Screen
@@ -56,7 +59,6 @@ export const TabNavigator = () => {
               </Text>
             </View>
           ),
-          title: '',
         }}
       />
     </Tab.Navigator>
