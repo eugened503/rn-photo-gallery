@@ -3,7 +3,7 @@ import Svg, {Path} from 'react-native-svg';
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 
-export const GallerySvg = ({color}) => {
+export const GallerySvg = ({color}: {color: any}) => {
   return (
     <View
       style={[
@@ -17,12 +17,7 @@ export const GallerySvg = ({color}) => {
           marginLeft: '20%',
         },
       ]}>
-      <Svg
-        width="25"
-        height="25"
-        viewBox="0 0 25 25"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg">
+      <Svg width="25" height="25" viewBox="0 0 25 25" fill="none">
         <Path
           d="M20.7969 10.3209C20.7969 9.71823 20.3772 9.22969 19.8594 9.22969H14.4219C13.9041 9.22969 13.4844 9.71823 13.4844 10.3209C13.4844 10.9236 13.9041 11.4121 14.4219 11.4121H19.8594C20.3772 11.4121 20.7969 10.9236 20.7969 10.3209Z"
           fill={color}

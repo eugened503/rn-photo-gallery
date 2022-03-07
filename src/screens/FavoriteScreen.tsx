@@ -2,14 +2,16 @@ import React from 'react';
 import {View, StyleSheet, FlatList, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {Post} from '../components/Post';
-import {useSelector} from 'react-redux';
+import {useSelector, RootStateOrAny} from 'react-redux';
 
-export const BookedScreen = ({navigation}) => {
-  const openPostHandler = post => {
-    navigation.navigate('PostScreen', post);
+export const FavoriteScreen = ({navigation}: {navigation: any}) => {
+  const openPostHandler = (post: any) => {
+    navigation.navigate('ImageScreen', post);
   };
 
-  const bookedPosts = useSelector(state => state.post.favouriteFoto);
+  const favouriteFoto = useSelector(
+    (state: RootStateOrAny) => state.post.favouriteFoto,
+  );
 
   return (
     <View style={{flex: 1, width: '100%'}}>
@@ -22,7 +24,7 @@ export const BookedScreen = ({navigation}) => {
       </LinearGradient>
       <FlatList
         style={styles.imageContainer}
-        data={bookedPosts}
+        data={favouriteFoto}
         numColumns={4}
         keyExtractor={post => post.id.toString()}
         renderItem={({item}) => <Post post={item} onOpen={openPostHandler} />}

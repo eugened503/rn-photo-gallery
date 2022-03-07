@@ -7,19 +7,18 @@ import {
   ActivityIndicator,
   Text,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, RootStateOrAny} from 'react-redux';
 import {Post} from '../components/Post';
 import {loadPosts} from '../store/actions/post';
+import {baseURL} from '../utils/constants/constants';
 
-export const MainScreen = ({navigation}) => {
+export const MainScreen = ({navigation}: {navigation: any}) => {
   const openPostHandler = (post: any) => {
-    navigation.navigate('PostScreen', post);
+    navigation.navigate('ImageScreen', post);
   };
 
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
-  const baseURL =
-    'https://api.unsplash.com/search/photos?per_page=10&page=1&query=mountains&client_id=AGDRGW_L8ax2wOau3--5yAcPwi2jVekA1UHT9DmiV7g';
 
   useEffect(() => {
     fetch(baseURL)
@@ -31,7 +30,9 @@ export const MainScreen = ({navigation}) => {
       .finally(() => setLoading(false));
   }, [dispatch]);
 
-  const allPosts = useSelector(state => state.post.allPosts);
+  const allImages = useSelector(
+    (state: RootStateOrAny) => state.post.allImages,
+  );
 
   return (
     <View style={styles.mainContainer}>
@@ -47,7 +48,7 @@ export const MainScreen = ({navigation}) => {
       ) : (
         <FlatList
           style={styles.imageContainer}
-          data={allPosts}
+          data={allImages}
           numColumns={4}
           keyExtractor={post => post.id.toString()}
           renderItem={({item}) => <Post post={item} onOpen={openPostHandler} />}

@@ -1,22 +1,24 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, RootStateOrAny} from 'react-redux';
 import {
   View,
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
 } from 'react-native';
-import {HeartSvg} from '../../assets/svg/HeartSvg';
+import {HeartSvg} from './svgComponents/HeartSvg';
 
-export const Post = ({post, onOpen}) => {
-  const favouriteFoto = useSelector(state => state.post.favouriteFoto);
+export const Post = ({post, onOpen}: {post: any; onOpen: any}) => {
+  const favouriteFoto = useSelector(
+    (state: RootStateOrAny) => state.post.favouriteFoto,
+  );
 
   return (
     <TouchableOpacity
       style={styles.button}
       activeOpacity={0.7}
       onPress={() => onOpen(post)}>
-      {Object.values(favouriteFoto).some(i => i.id === post.id) && (
+      {favouriteFoto.some((i: {id: any}) => i.id === post.id) && (
         <View style={styles.buttonImage}>
           <HeartSvg />
         </View>
@@ -24,6 +26,7 @@ export const Post = ({post, onOpen}) => {
       <ImageBackground
         style={styles.image}
         source={{uri: post.urls.regular}}
+        // eslint-disable-next-line react-native/no-inline-styles
         imageStyle={{borderRadius: 10}}
       />
     </TouchableOpacity>

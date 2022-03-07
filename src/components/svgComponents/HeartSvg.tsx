@@ -3,12 +3,7 @@ import React from 'react';
 
 export const HeartSvg = () => {
   return (
-    <Svg
-      width="20"
-      height="18"
-      viewBox="0 0 20 18"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+    <Svg width="20" height="18" viewBox="0 0 20 18" fill="none">
       <Path
         d="M1 3L3.5 1.5L6.5 1L9 3H11L13.5 1.5H17L19 4V6L18 8L17 10L10 16.5L4 11L1 7V3Z"
         fill="#FF3C3C"

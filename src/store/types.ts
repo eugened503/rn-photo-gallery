@@ -1,4 +1,4 @@
-export const LOAD_POSTS = 'LOAD_POSTS';
-export const REMOVE_POST = 'REMOVE_POST';
-export const ADD_FOTO = 'ADD_FOTO';
+export const LOAD_IMAGES = 'LOAD_IMAGES';
+export const REMOVE_IMAGE = 'REMOVE_IMAGE';
+export const ADD_FAVORITES = 'ADD_FAVORITES';
 export const REMOVE_FAVORITE = 'REMOVE_FAVORITE';

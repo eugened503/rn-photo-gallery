@@ -1,7 +1,12 @@
-import {LOAD_POSTS, REMOVE_POST, ADD_FOTO, REMOVE_FAVORITE} from '../types';
+import {
+  LOAD_IMAGES,
+  REMOVE_IMAGE,
+  ADD_FAVORITES,
+  REMOVE_FAVORITE,
+} from '../types';
 
 const initialState = {
-  allPosts: [],
+  allImages: [],
   favouriteFoto: [],
 };
 
@@ -10,19 +15,23 @@ export const postReducer = (
   action: {type: any; payload: any[]},
 ) => {
   switch (action.type) {
-    case LOAD_POSTS:
+    case LOAD_IMAGES:
       return {
         ...state,
-        allPosts: action.payload,
+        allImages: action.payload,
       };
-    case REMOVE_POST:
+    case REMOVE_IMAGE:
       return {
         ...state,
-        allPosts: state.allPosts.filter(p => p.id !== action.payload),
-        favouriteFoto: state.favouriteFoto.filter(p => p.id !== action.payload),
+        allImages: state.allImages.filter(
+          (p: {id: any}) => p.id !== action.payload,
+        ),
+        favouriteFoto: state.favouriteFoto.filter(
+          (p: {id: any}) => p.id !== action.payload,
+        ),
       };
 
-    case ADD_FOTO:
+    case ADD_FAVORITES:
       return {
         ...state,
         favouriteFoto: [...state.favouriteFoto, action.payload],
@@ -31,7 +40,9 @@ export const postReducer = (
     case REMOVE_FAVORITE:
       return {
         ...state,
-        favouriteFoto: state.favouriteFoto.filter(p => p.id !== action.payload),
+        favouriteFoto: state.favouriteFoto.filter(
+          (p: {id: any}) => p.id !== action.payload,
+        ),
       };
     default:
       return state;

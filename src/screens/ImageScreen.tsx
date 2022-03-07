@@ -1,6 +1,6 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, RootStateOrAny} from 'react-redux';
 import {
   View,
   Text,
@@ -12,37 +12,45 @@ import {
 } from 'react-native';
 
 import {removePost, addFoto, removeFavotite} from '../store/actions/post';
-import {ArrowSvg} from '../../assets/svg/ArrowSvg';
-import {TransparentHeartSvg} from '../../assets/svg/TransparentHeartSvg';
-import {HeartSvg} from '../../assets/svg/HeartSvg';
-import {BasketSvg} from '../../assets/svg/BasketSvg';
+import {ArrowSvg} from '../components/svgComponents/ArrowSvg';
+import {TransparentHeartSvg} from '../components/svgComponents/TransparentHeartSvg';
+import {HeartSvg} from '../components/svgComponents/HeartSvg';
+import {BasketSvg} from '../components/svgComponents/BasketSvg';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-export const PostScreen = ({route, navigation}) => {
+export const ImageScreen = ({
+  route,
+  navigation,
+}: {
+  navigation: any;
+  route: any;
+}) => {
   const dispatch = useDispatch();
   const postId = route.params.id;
 
-  const post = useSelector(state =>
-    state.post.allPosts.find(p => p.id === postId),
+  const post = useSelector((state: RootStateOrAny) =>
+    state.post.allImages.find((p: {id: any}) => p.id === postId),
   );
 
-  const favouritePost = useSelector(state =>
-    state.post.favouriteFoto.find(p => p.id === postId),
+  const favouritePost = useSelector((state: RootStateOrAny) =>
+    state.post.favouriteFoto.find((p: {id: any}) => p.id === postId),
   );
 
   const handleFoto = () => {
     dispatch(addFoto(post));
-    navigation.navigate('TabNav');
+    navigation.navigate('TabNavigator');
   };
 
   const deleteFavouriteFoto = () => {
     dispatch(removeFavotite(favouritePost.id));
-    navigation.navigate('TabNav');
+    navigation.navigate('TabNavigator');
   };
 
-  const favouriteFoto = useSelector(state => state.post.favouriteFoto);
+  const favouriteFoto = useSelector(
+    (state: RootStateOrAny) => state.post.favouriteFoto,
+  );
 
   const removeHandler = () => {
     Alert.alert(
@@ -58,7 +66,7 @@ export const PostScreen = ({route, navigation}) => {
           style: 'destructive',
           onPress() {
             dispatch(removePost(postId));
-            navigation.navigate('TabNav');
+            navigation.navigate('TabNavigator');
           },
         },
       ],
@@ -80,7 +88,7 @@ export const PostScreen = ({route, navigation}) => {
         <TouchableOpacity
           style={styles.headerArrow}
           activeOpacity={0.7}
-          onPress={() => navigation.navigate('TabNav')}>
+          onPress={() => navigation.navigate('TabNavigator')}>
           <ArrowSvg />
         </TouchableOpacity>
 
@@ -91,7 +99,7 @@ export const PostScreen = ({route, navigation}) => {
         source={{uri: route.params.urls.regular}}
       />
       <View style={styles.buttonGroup}>
-        {!Object.values(favouriteFoto).some(i => i.id === post.id) && (
+        {!favouriteFoto.some((i: {id: any}) => i.id === post.id) && (
           <TouchableOpacity
             style={styles.buttonTop}
             activeOpacity={0.7}
@@ -102,7 +110,7 @@ export const PostScreen = ({route, navigation}) => {
             <Text style={styles.textButton}>Добавить в избранное</Text>
           </TouchableOpacity>
         )}
-        {Object.values(favouriteFoto).some(i => i.id === post.id) && (
+        {favouriteFoto.some((i: {id: any}) => i.id === post.id) && (
           <TouchableOpacity
             style={styles.buttonTop}
             activeOpacity={0.7}
@@ -136,6 +144,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
   },
+
   image: {
     position: 'absolute',
     top: (height - width) / 2 - 15,
