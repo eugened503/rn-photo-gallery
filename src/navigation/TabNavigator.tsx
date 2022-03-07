@@ -20,8 +20,6 @@ export const TabNavigator = () => {
           borderTopWidth: 0,
           elevation: 0,
           height: 60,
-          paddingTop: 10,
-          paddingBottom: 10,
         },
         tabBarLabel: () => {
           return null;
