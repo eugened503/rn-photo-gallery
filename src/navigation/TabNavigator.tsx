@@ -1,4 +1,5 @@
 import React from 'react';
+import {View, StyleSheet, Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {MainScreen} from '../screens/MainScreen';
 import {FavoriteScreen} from '../screens/FavoriteScreen';
@@ -19,32 +20,24 @@ export const TabNavigator = () => {
           borderTopWidth: 0,
           elevation: 0,
           height: 60,
-          //flexDirection: 'row',
-          //justifyContent: 'space-between',
-          //width: '100%',
           paddingTop: 10,
-          paddingBottom: 10,
-          //position: 'relative',
-          //paddingLeft: 38,
-          //flexDirection: 'row',
-          //borderColor: 'red',
-          //borderWidth: 1,
-          //justifyContent: 'space-between',
-        },
-        tabBarLabelStyle: {
-          // fontFamily: 'Open Sans',
-          // fontStyle: 'normal',
-          // fontSize: 12,
-          // lineHeight: 16,
-          //alignSelf: 'flex-end',
-          //marginLeft: 'auto',
         },
       }}>
       <Tab.Screen
         name="MainScreen"
         component={MainScreen}
         options={{
-          tabBarIcon: ({color}) => <GallerySvg color={color} />,
+          tabBarIcon: ({color, focused}) => (
+            <View style={styles.iconContainerLeft}>
+              <View style={styles.image}>
+                <GallerySvg color={color} />
+              </View>
+              <Text
+                style={(styles.text, {color: focused ? '#A10D99' : '#94949D'})}>
+                Галерея
+              </Text>
+            </View>
+          ),
           title: '',
         }}
       />
@@ -52,10 +45,50 @@ export const TabNavigator = () => {
         name="FavoriteScreen"
         component={FavoriteScreen}
         options={{
-          tabBarIcon: ({color}) => <StarSvg color={color} />,
+          tabBarIcon: ({color, focused}) => (
+            <View style={styles.iconContainerRight}>
+              <View style={styles.image}>
+                <StarSvg color={color} />
+              </View>
+              <Text
+                style={(styles.text, {color: focused ? '#A10D99' : '#94949D'})}>
+                Галерея
+              </Text>
+            </View>
+          ),
           title: '',
         }}
       />
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  iconContainerLeft: {
+    alignSelf: 'flex-start',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginLeft: 38,
+  },
+
+  iconContainerRight: {
+    alignSelf: 'flex-end',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginRight: 38,
+  },
+
+  image: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  text: {
+    fontFamily: 'Open Sans',
+    fontStyle: 'normal',
+    fontSize: 12,
+    lineHeight: 16,
+  },
+});

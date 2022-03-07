@@ -8,8 +8,8 @@ import {
   Text,
 } from 'react-native';
 import {useDispatch, useSelector, RootStateOrAny} from 'react-redux';
-import {Post} from '../components/Post';
-import {loadPosts} from '../store/actions/post';
+import {Image} from '../components/Image';
+import {loadImages} from '../store/actions/post';
 import {baseURL} from '../utils/constants/constants';
 
 export const MainScreen = ({navigation}: {navigation: any}) => {
@@ -24,7 +24,7 @@ export const MainScreen = ({navigation}: {navigation: any}) => {
     fetch(baseURL)
       .then(response => response.json())
       .then(data => {
-        dispatch(loadPosts(data.results));
+        dispatch(loadImages(data.results));
       })
       .catch(error => console.log(error))
       .finally(() => setLoading(false));
@@ -44,14 +44,18 @@ export const MainScreen = ({navigation}: {navigation: any}) => {
         <Text style={styles.text}>Все изображения</Text>
       </LinearGradient>
       {isLoading ? (
-        <ActivityIndicator />
+        <View style={styles.indicator}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
       ) : (
         <FlatList
           style={styles.imageContainer}
           data={allImages}
           numColumns={4}
-          keyExtractor={post => post.id.toString()}
-          renderItem={({item}) => <Post post={item} onOpen={openPostHandler} />}
+          keyExtractor={image => image.id.toString()}
+          renderItem={({item}) => (
+            <Image image={item} onOpen={openPostHandler} />
+          )}
         />
       )}
     </View>
@@ -59,9 +63,18 @@ export const MainScreen = ({navigation}: {navigation: any}) => {
 };
 
 const styles = StyleSheet.create({
+  indicator: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   mainContainer: {
     flex: 1,
-    width: '100%',
   },
 
   imageContainer: {

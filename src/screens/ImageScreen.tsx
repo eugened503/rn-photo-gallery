@@ -8,17 +8,13 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
-  Dimensions,
 } from 'react-native';
 
-import {removePost, addFoto, removeFavotite} from '../store/actions/post';
+import {removeImage, addFavotite, removeFavotite} from '../store/actions/post';
 import {ArrowSvg} from '../components/svgComponents/ArrowSvg';
 import {TransparentHeartSvg} from '../components/svgComponents/TransparentHeartSvg';
 import {HeartSvg} from '../components/svgComponents/HeartSvg';
 import {BasketSvg} from '../components/svgComponents/BasketSvg';
-
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
 
 export const ImageScreen = ({
   route,
@@ -39,7 +35,7 @@ export const ImageScreen = ({
   );
 
   const handleFoto = () => {
-    dispatch(addFoto(post));
+    dispatch(addFavotite(post));
     navigation.navigate('TabNavigator');
   };
 
@@ -65,7 +61,7 @@ export const ImageScreen = ({
           text: 'Удалить',
           style: 'destructive',
           onPress() {
-            dispatch(removePost(postId));
+            dispatch(removeImage(postId));
             navigation.navigate('TabNavigator');
           },
         },
@@ -79,7 +75,7 @@ export const ImageScreen = ({
   }
 
   return (
-    <View style={styles.center}>
+    <View style={styles.imageScreen}>
       <LinearGradient
         start={{x: 0, y: 0}}
         end={{x: 0, y: 1}}
@@ -94,10 +90,12 @@ export const ImageScreen = ({
 
         <Text style={styles.text}>IMG-{route.params.id}</Text>
       </LinearGradient>
-      <ImageBackground
-        style={styles.image}
-        source={{uri: route.params.urls.regular}}
-      />
+      <View style={styles.imageContainer}>
+        <ImageBackground
+          style={styles.image}
+          source={{uri: route.params.urls.regular}}
+        />
+      </View>
       <View style={styles.buttonGroup}>
         {!favouriteFoto.some((i: {id: any}) => i.id === post.id) && (
           <TouchableOpacity
@@ -136,8 +134,7 @@ export const ImageScreen = ({
 };
 
 const styles = StyleSheet.create({
-  center: {
-    position: 'relative',
+  imageScreen: {
     backgroundColor: '#222222',
     height: '100%',
     justifyContent: 'space-between',
@@ -145,11 +142,20 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
 
-  image: {
+  imageContainer: {
     position: 'absolute',
-    top: (height - width) / 2 - 15,
-    height: width,
-    width: width,
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+  },
+
+  image: {
+    height: 375,
+    width: '100%',
   },
 
   header: {
